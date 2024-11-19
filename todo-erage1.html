@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        background-color: rgb(153, 205, 205);
+      }
+      .container {
+        width: 400px;
+        background-color: aliceblue;
+        margin: auto;
+        margin-top: 100px;
+        padding: 10px 15px;
+      }
+      h2 {
+        text-align: center;
+        font-size: 30px;
+      }
+      .head img {
+        margin-top: 25px;
+        width: 40px;
+        height: 40px;
+      }
+      .head {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+      .input {
+        width: 90%;
+        padding: 10px;
+        display: flex;
+        flex-direction:column;
+      }
+      .text{
+        display: flex;
+        gap:10px;
+        width: 100%;
+      }
+      .input input {
+        width: 80%;
+        background-color: antiquewhite;
+        border: none;
+            padding:10px;
+            border-radius: 15px;
+      }
+      .input button {
+        background-color: green;
+        padding: 7px 10px;
+            border-radius: 15px;
+            border: none;
+            outline: none;
+            color:white;
+            width: 25%;
+      }
+      #list{
+        padding-left: 0;
+        /* display: flex;
+        justify-content: space-between; */
+      }
+      li {
+        list-style-type: none;
+        border: 1px solid black;
+        width: 100%;
+        margin: 5px;
+        background-color: black;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 15px;
+        font-size: larger;
+        font-weight: bolder;
+        display: flex;
+        justify-content: space-between;
+      }
+      li span{
+        display: flex;
+      }
+      span img{
+        background-color: white;
+      }
+      li{
+        display: flex;
+        flex-direction: column;
+      }
+      .active{
+        text-decoration: line-through;
+      }
+    
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="head">
+        <h2>Simple to List</h2>
+        <img src="./to-do.png" alt="todo" />
+      </div>
+      <div class="input">
+        <div class="text">
+          <input type="text" id="input" />
+          <button id="btn">add</button>
+        </div>
+    
+          <ul id="list" >
+           
+          </ul>
+       
+      </div>
+    </div>
+
+    <script>
+
+        let btn=document.getElementById('btn');
+        let input=document.getElementById('input');
+        let listItem=document.getElementById('list');
+        btn.addEventListener('click',createList);
+
+        function createList(){
+          if(input.value===''){
+            alert('enter any task')
+          }else{
+            let li=document.createElement('li');
+            li.innerHTML=input.value;
+            let span=document.createElement('span');
+            span.innerHTML=`<input type='checkbox'><img src='./trashbin.webp' width='25px'  alt='remove' height='25px'>`;
+            li.append(span);
+            listItem.appendChild(li);
+            saveData()
+            input.value=''
+          }
+        }
+       listItem.addEventListener('click',(e)=>{
+        if(e.target.tagName==='IMG'){
+            e.target.parentElement.parentElement.remove();
+            saveData()
+        }
+        if(e.target.checked===true){
+            e.target.parentElement.parentElement.classList.add('active');
+            saveData()
+        }else{
+            e.target.parentElement.parentElement.classList.remove('active')
+            saveData()
+        }
+       })
+
+       function saveData(){
+        localStorage.setItem('data',listItem.innerHTML);
+       }
+       function useData(){
+        listItem.innerHTML=localStorage.getItem('data')
+       }
+       useData()
+       
+
+    </script>
+  </body>
+</html>
